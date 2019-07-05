@@ -6,13 +6,13 @@
 #    By: tide-jon <tide-jon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/07/04 17:20:36 by tide-jon       #+#    #+#                 #
-#    Updated: 2019/07/04 18:32:14 by tide-jon      ########   odam.nl          #
+#    Updated: 2019/07/05 15:40:18 by tide-jon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		tide-jon.filler
 
-SRCS = 		filler.c parsing.c getmoves.c
+SRCS = 		filler.c parsing.c getmoves.c eval_move.c
 
 OBJECTS =	$(SRCS:.c=.o)
 

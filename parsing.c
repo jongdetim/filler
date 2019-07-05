@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/04 17:39:11 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/04 17:45:02 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/05 14:22:11 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ static void	player_num(t_filler *data, char *str)
 		}
 		str++;
 	}
+}
+
+/*
+**	finds the middle of the map
+*/
+
+static void	get_middle(t_filler *data)
+{
+	data->middle_y = data->map_y / 2;
+	data->middle_x = data->map_x / 2;
 }
 
 /*
@@ -68,6 +78,7 @@ static void	parse_fillerhelper(int i, char *str, t_filler *data)
 		data->map_x = ft_getnum(str, 2);
 		data->map = (char**)malloc(sizeof(char*) * data->map_y + 1);
 		data->map[data->map_y] = NULL;
+		get_middle(data);
 	}
 }
 

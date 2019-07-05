@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/03 16:41:33 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/04 19:23:06 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/05 15:41:40 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,39 @@ static void	init_filler(t_filler *data)
 }
 
 /*
+**	retrieve the best evaluated move
+*/
+
+static t_fillerlst	*get_bestmove(t_fillerlst *lst)
+{
+	t_fillerlst	*current;
+	t_fillerlst	*best;
+
+	current = lst;
+	best = lst;
+	while (current->next != NULL)
+	{
+		current = current->next;
+		if (current->weight < best->weight)
+			best = current;
+	}
+	return (best);
+}
+
+/*
 **	send a move to stdout
 */
 
-static void	send_move(t_filler *data)
+static void	send_move(t_fillerlst *lst)
 {
-	t_fillerlst *current;
+	t_fillerlst *bestmove;
 
-	if (data->legal_moves != NULL)
+	if (lst != NULL)
 	{
-		current = data->legal_moves;
-		while (current->next != NULL)
-			current = current->next;
-		write(1, ft_itoa(current->y), ft_digcount(current->y));
+		bestmove = get_bestmove(lst);
+		write(1, ft_itoa(bestmove->y), ft_digcount(bestmove->y));
 		write(1, " ", 1);
-		write(1, ft_itoa(current->x), ft_digcount(current->x));
+		write(1, ft_itoa(bestmove->x), ft_digcount(bestmove->x));
 		write(1, "\n", 1);
 	}
 	else
@@ -56,7 +74,7 @@ int			main(void)
 			break ;
 		get_piece_filler(str, data);
 		find_moves(data);
-		send_move(data);
+		send_move(data->legal_moves);
 		data->movenum++;
 	}
 	return (0);
