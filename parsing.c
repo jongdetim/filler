@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/04 17:39:11 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/05 14:22:11 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/06 20:46:40 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ static void	player_num(t_filler *data, char *str)
 		}
 		str++;
 	}
+	if (data->player == 'o')
+		data->enemy = 'x';
+	else
+		data->enemy = 'x';
 }
 
 /*
@@ -40,6 +44,37 @@ static void	get_middle(t_filler *data)
 {
 	data->middle_y = data->map_y / 2;
 	data->middle_x = data->map_x / 2;
+}
+
+/*
+**	get dimensions of inner piece
+*/
+
+void		get_piecesize(t_filler *data)
+{
+	int i;
+	int j;
+	int	count;
+
+	j = 0;
+	data->piecesize_y = 0;
+	data->piecesize_x = 0;
+	while (j < data->piece_y)
+	{
+		i = 0;
+		count = 0;
+		while (i < data->piece_x)
+		{
+			if (data->piece[j][i] == '*')
+				count++;
+			i++;
+		}
+		if (count > 0)
+			data->piecesize_y++;
+		if (count > data->piecesize_x)
+			data->piecesize_x = count;
+		j++;
+	}
 }
 
 /*
@@ -66,6 +101,7 @@ void		get_piece_filler(char *str, t_filler *data)
 		free(str);
 		i++;
 	}
+	get_piecesize(data);
 }
 
 static void	parse_fillerhelper(int i, char *str, t_filler *data)

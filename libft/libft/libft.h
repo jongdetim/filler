@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/28 17:38:47 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/04 17:36:34 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/06 16:59:47 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ typedef struct		s_gnl_list
 	struct s_gnl_list	*next;
 }					t_gnl_list;
 
+int					ft_pythagoras(int x, int y);
+int					ft_power(int num, int power);
+int					ft_sqrt(unsigned int num);
+int					ft_abs(int num);
 void				ft_chararrfree(char ***arr);
 int					ft_getnum(char *str, int num);
 void				ft_putullnbr(unsigned long long n);

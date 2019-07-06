@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/04 17:31:37 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/05 15:41:28 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/06 19:50:05 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,20 @@ typedef struct	s_filler
 	int					piece_y;
 	int					movenum;
 	char				player;
+	char				enemy;
 	char				**piece;
+	int					piecesize_x;
+	int					piecesize_y;
 	char				**map;
 	int					middle_x;
 	int					middle_y;
 	t_fillerlst			*legal_moves;
 	int					gameover;
+	int					phase;
+	int					my_start_x;
+	int					my_start_y;
+	int					enemy_start_x;
+	int					enemy_start_y;
 }				t_filler;
 
 void			eval_move(t_filler *data, t_fillerlst *move);
