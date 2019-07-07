@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/03 16:41:33 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/06 20:48:01 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/07 17:25:02 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,42 @@ static void	init_filler(t_filler *data)
 	data->movenum = 1;
 	data->gameover = 0;
 	data->phase = 1;
+}
+
+void				save_splitpoint(t_filler *data, t_fillerlst *best, 
+															int i, int j)
+{
+	data->splitpoint_x = best->x + i;
+	data->splitpoint_y = best->y + j;
+}
+
+void				get_splitpoint(t_filler *data, t_fillerlst *move)
+{
+	int i;
+	int j;
+	int	new;
+	int	closest;
+
+	j = 0;
+	closest = 10000000;
+	while (j < data->piece_y)
+	{
+		i = 0;
+		while (i < data->piece_x)
+		{
+			if (data->piece[j][i] == '*')
+			{
+				new = DISTANCE_TO_MID;
+				if (new < closest)
+				{
+					closest = new;
+					save_splitpoint(data, move, i, j);
+				}
+			}
+			i++;
+		}
+		j++;
+	}
 }
 
 /*
@@ -38,8 +74,11 @@ static t_fillerlst	*get_bestmove(t_fillerlst *lst, t_filler *data)
 			best = current;
 	}
 	if (data->phase == 1 && best->weight < ft_pythagoras(data->map_y / 10,
-												data->map_x / 10))
-		data->phase = 2;
+					data->map_x / 10) + (data->map_y * data->map_x) / 500)
+		{
+			data->phase = 2;
+			get_splitpoint(data, best);
+		}
 	return (best);
 }
 

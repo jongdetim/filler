@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/04 17:31:37 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/06 19:50:05 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/07 17:28:36 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include "libft/ft_printf.h"
 
 # define POS data->map[y + j][x + i]
+# define DISTANCE_TO_MID ft_pythagoras((data->middle_x - (move->x + i)) * 10, \
+										(data->middle_y - (move->y + j)) * 10)
 
 typedef struct	s_fillerlst
 {
@@ -49,8 +51,11 @@ typedef struct	s_filler
 	int					my_start_y;
 	int					enemy_start_x;
 	int					enemy_start_y;
+	int					splitpoint_x;
+	int					splitpoint_y;
 }				t_filler;
 
+void			get_piecesize(t_filler *data);
 void			eval_move(t_filler *data, t_fillerlst *move);
 void			find_moves(t_filler *data);
 void			parse_filler(char *str, t_filler *data);
