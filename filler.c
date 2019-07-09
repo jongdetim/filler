@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/03 16:41:33 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/07 17:25:02 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/09 14:45:46 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static t_fillerlst	*get_bestmove(t_fillerlst *lst, t_filler *data)
 			best = current;
 	}
 	if (data->phase == 1 && best->weight < ft_pythagoras(data->map_y / 10,
-					data->map_x / 10) + (data->map_y * data->map_x) / 500)
+					data->map_x / 10) + (data->map_y * data->map_x) / 1)
 		{
 			data->phase = 2;
 			get_splitpoint(data, best);

@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/05 14:08:26 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/07 17:32:35 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/09 15:05:19 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void		distance_to_ypath(t_filler *data, t_fillerlst *move)
 		}
 		j++;
 	}
-	move->weight += distance_sum * 3000 - (data->movenum * 50);
+	move->weight += distance_sum * 500 / data->movenum;
 }
 
 static void		distance_to_xpath(t_filler *data, t_fillerlst *move)
@@ -57,33 +57,33 @@ static void		distance_to_xpath(t_filler *data, t_fillerlst *move)
 		}
 		j++;
 	}
-	move->weight += distance_sum * 1000;
+	move->weight += distance_sum * 300 / data->movenum * data->movenum;
 }
 
 static void		to_xwall(t_filler *data, t_fillerlst *move)
 {
 	distance_to_xpath(data, move);
 	if (data->my_start_x > data->middle_x)
-		move->weight += move->x * 1000;
+		move->weight += move->x * 100;
 	else
-		move->weight += (data->map_x - move->x) * 1000;
+		move->weight += (data->map_x - move->x) * 100;
 	if (data->my_start_y > data->middle_y)
-		move->weight += move->y;
+		move->weight += (data->map_y - move->y) * 5;
 	else
-		move->weight -= move->y; 
+		move->weight += move->y * 5; 
 }
 
 static void		to_ywall(t_filler *data, t_fillerlst *move)
 {
 	distance_to_ypath(data, move);
 	if (data->my_start_y > data->middle_y)
-		move->weight += move->y * 1000;
+		move->weight += move->y * 100;
 	else
-		move->weight += (data->map_y - move->y) * 1000;
+		move->weight += (data->map_y - move->y) * 100;
 	if (data->my_start_x > data->middle_x)
-		move->weight += move->x;
+		move->weight += (data->map_x - move->x) * 5;
 	else
-		move->weight -= move->x; 
+		move->weight += move->x * 5; 
 }
 
 // dit bouwt nog niet naar de muren toe vanaf de split in het midden.
