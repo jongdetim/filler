@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/04 17:31:37 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/07 17:28:36 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/12 22:53:38 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # define POS data->map[y + j][x + i]
 # define DISTANCE_TO_MID ft_pythagoras((data->middle_x - (move->x + i)) * 10, \
-										(data->middle_y - (move->y + j)) * 10)
+									(data->middle_y - (move->y + j)) * 10) / 10
 
 typedef struct	s_fillerlst
 {
@@ -27,6 +27,8 @@ typedef struct	s_fillerlst
 	int					x;
 	int					y;
 	int					weight;
+	int					x_touch;
+	int					y_touch;
 }				t_fillerlst;
 
 typedef struct	s_filler
@@ -53,6 +55,9 @@ typedef struct	s_filler
 	int					enemy_start_y;
 	int					splitpoint_x;
 	int					splitpoint_y;
+	int					swap;
+	int					x_wall_touch;
+	int					y_wall_touch;
 }				t_filler;
 
 void			get_piecesize(t_filler *data);

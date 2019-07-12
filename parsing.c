@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/04 17:39:11 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/07 15:21:51 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/12 20:21:30 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	player_num(t_filler *data, char *str)
 	if (data->player == 'o')
 		data->enemy = 'x';
 	else
-		data->enemy = 'x';
+		data->enemy = 'o';
 }
 
 /*

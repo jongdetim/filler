@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/03 16:41:33 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/09 14:45:46 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/12 22:55:53 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	init_filler(t_filler *data)
 	data->movenum = 1;
 	data->gameover = 0;
 	data->phase = 1;
+	data->x_wall_touch = 0;
+	data->y_wall_touch = 0;
 }
 
 void				save_splitpoint(t_filler *data, t_fillerlst *best, 
@@ -73,12 +75,16 @@ static t_fillerlst	*get_bestmove(t_fillerlst *lst, t_filler *data)
 		if (current->weight < best->weight)
 			best = current;
 	}
-	if (data->phase == 1 && best->weight < ft_pythagoras(data->map_y / 10,
-					data->map_x / 10) + (data->map_y * data->map_x) / 1)
+	if (data->phase == 1 && best->weight < ft_pythagoras(data->map_y,
+					data->map_x) / 10 + (data->map_y * data->map_x) / 200)
 		{
 			data->phase = 2;
 			get_splitpoint(data, best);
 		}
+	if (best->x_touch == 1)
+		data->x_wall_touch = 1;
+	if (best->y_touch == 1)
+		data->y_wall_touch = 1;
 	return (best);
 }
 
@@ -129,6 +135,118 @@ void		get_startpos(t_filler *data)
 	}
 }
 
+int				check_enemy_down(t_filler *data)
+{
+	int y;
+	int ret;
+
+	ret = 0;
+	y = 0;
+	while (data->splitpoint_y + y < data->map_y && data->splitpoint_x != 0 &&
+										data->splitpoint_x != data->map_x - 1)
+	{
+		if (data->map[data->splitpoint_y + y][data->splitpoint_x] == ft_toupper(data->enemy))
+		{
+			if (data->my_start_x < data->middle_x)
+				data->splitpoint_x--;
+			else
+				data->splitpoint_x++;
+			y = -1;
+			ret = 1;
+		}
+		y++;
+	}
+	return (ret);
+}
+
+int				check_enemy_up(t_filler *data)
+{
+	int y;
+	int ret;
+
+	ret = 0;
+	y = 0;
+	while (data->splitpoint_y - y >= 0 && data->splitpoint_x != 0 &&
+										data->splitpoint_x != data->map_x - 1)
+	{
+		if (data->map[data->splitpoint_y - y][data->splitpoint_x] == ft_toupper(data->enemy))
+		{
+			if (data->my_start_x < data->middle_x)
+				data->splitpoint_x--;
+			else
+				data->splitpoint_x++;
+			y = -1;
+			ret = 1;
+		}
+		y++;
+	}
+	return (ret);
+}
+
+int				check_enemy_right(t_filler *data)
+{
+	int x;
+	int ret;
+
+	ret = 0;
+	x = 0;
+	while (data->splitpoint_x + x < data->map_x && data->splitpoint_y != 0 &&
+										data->splitpoint_y != data->map_y - 1)
+	{
+		if (data->map[data->splitpoint_y][data->splitpoint_x + x] == ft_toupper(data->enemy))
+		{
+			if (data->my_start_y < data->middle_y)
+				data->splitpoint_y--;
+			else
+				data->splitpoint_y++;
+			x = -1;
+			ret = 1;
+		}
+		x++;
+	}
+	return (ret);
+}
+
+int				check_enemy_left(t_filler *data)
+{
+	int x;
+	int ret;
+
+	ret = 0;
+	x = 0;
+	while (data->splitpoint_x - x >= 0 && data->splitpoint_y != 0 &&
+										data->splitpoint_y != data->map_y - 1)
+	{
+		if (data->map[data->splitpoint_y][data->splitpoint_x - x] == ft_toupper(data->enemy))
+		{
+			if (data->my_start_y < data->middle_y)
+				data->splitpoint_y--;
+			else
+				data->splitpoint_y++;
+			x = -1;
+			ret = 1;
+		}
+		x++;
+	}
+	return (ret);
+}
+
+int				check_enemy_x(t_filler *data)
+{
+	if (data->my_start_x < data->middle_x)
+		return (check_enemy_right(data));
+	else
+		return (check_enemy_left(data));
+}
+
+int				check_enemy_y(t_filler *data)
+{
+	if (data->my_start_y < data->middle_y)
+		return (check_enemy_down(data));
+	else
+		return (check_enemy_up(data));
+}
+
 int			main(void)
 {
 	char			*str;
@@ -145,6 +263,12 @@ int			main(void)
 		if (data->movenum == 1)
 			get_startpos(data);
 		get_piece_filler(str, data);
+		data->swap = 0;
+		if (data->phase == 2)
+		{
+			if (check_enemy_x(data) == 1 || check_enemy_y(data) == 1)
+				data->swap = 1;
+		}
 		find_moves(data);
 		send_move(data->legal_moves, data);
 		data->movenum++;
