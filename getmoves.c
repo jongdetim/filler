@@ -6,7 +6,7 @@
 /*   By: tide-jon <tide-jon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/04 17:41:05 by tide-jon       #+#    #+#                */
-/*   Updated: 2019/07/12 22:55:16 by tide-jon      ########   odam.nl         */
+/*   Updated: 2019/07/14 19:51:20 by tide-jon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,12 @@ static int	check_legal(t_filler *data, int x, int y)
 **	find all legal moves
 */
 
-void	find_moves(t_filler *data)
+void		find_moves(t_filler *data)
 {
 	int	y;
 	int	x;
 
+	data->gap_found = find_gap(data);
 	if (data->movenum != 1)
 		filler_lstdel(&(data->legal_moves));
 	y = 0;
